@@ -1,0 +1,7 @@
+{
+    "extends": ["airbnb", "prettier", "react-app"],
+    "plugins": ["prettier"],
+    "rules": {
+        "no-console": "off"
+    }
+}
