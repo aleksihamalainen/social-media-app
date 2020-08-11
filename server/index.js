@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const postRouter = require('./routes/posts');
 const userRouter = require('./routes/users');
+const loginRouter = require('./routes/login');
 require('dotenv').config();
 
 const app = express();
@@ -10,6 +11,11 @@ const app = express();
 app.use(bodyParser.json());
 app.use('/api/posts', postRouter);
 app.use('/api/users', userRouter);
+app.use('/api/login', loginRouter);
+
+app.use((req, res) => {
+  res.status(404).send('Page not found');
+});
 
 try {
   mongoose.connect(process.env.MONGODB_URI, {
