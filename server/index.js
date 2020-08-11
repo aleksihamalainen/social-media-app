@@ -1,18 +1,21 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const postsRouter = require('./routes/posts');
+const postRouter = require('./routes/posts');
+const userRouter = require('./routes/users');
 require('dotenv').config();
 
 const app = express();
 
 app.use(bodyParser.json());
-app.use('/api/posts', postsRouter);
+app.use('/api/posts', postRouter);
+app.use('/api/users', userRouter);
 
 try {
   mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useCreateIndex: true,
   });
   console.log('Connected to MongoDB');
 } catch (error) {
