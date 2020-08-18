@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Login from './components/Login';
+import Register from './components/Register';
+import Homepage from './components/Homepage';
+import Post from './components/Post';
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -25,7 +28,10 @@ const App = () => {
             setPassword={setPassword}
           />
         </Route>
-        <Route path='/'>{user ? <h1>post</h1> : <h1>homepage</h1>}</Route>
+        <Route path='/register'>
+          <Register />
+        </Route>
+        <Route path='/'>{user ? <Post /> : <Homepage />}</Route>
       </Switch>
     </Router>
   );
