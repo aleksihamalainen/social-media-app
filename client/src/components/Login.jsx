@@ -1,15 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Button from '@material-ui/core/Button';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Link from '@material-ui/core/Link';
-import loginService from '../services/login';
+import {
+  makeStyles,
+  TextField,
+  Typography,
+  CssBaseline,
+  Button,
+  Container,
+  Grid,
+  Link,
+} from '@material-ui/core';
+import userService from '../services/user';
 
 const useStyles = makeStyles({
   container: {
@@ -26,16 +28,17 @@ const useStyles = makeStyles({
   },
 });
 
-const Login = ({ username, password, setUsername, setPassword }) => {
+const Login = ({ username, password, setUsername, setPassword, setUser }) => {
   const history = useHistory();
   const classes = useStyles();
 
   const handleLogin = async (event) => {
     try {
       event.preventDefault();
-      const user = await loginService.login({ username, password });
+      const user = await userService.login({ username, password });
       localStorage.setItem('user', JSON.stringify(user));
       history.push('/');
+      setUser(user);
       setUsername('');
       setPassword('');
     } catch (error) {
@@ -79,7 +82,7 @@ const Login = ({ username, password, setUsername, setPassword }) => {
           </Button>
           <Grid container className={classes.grid}>
             <Grid item>
-              <Link href='/register'>Don&apos;t have an account? Sign Up</Link>
+              <Link href='/register'>Don&apos;t have an account? Register</Link>
             </Grid>
           </Grid>
         </form>
@@ -93,6 +96,7 @@ Login.propTypes = {
   password: PropTypes.string.isRequired,
   setUsername: PropTypes.func.isRequired,
   setPassword: PropTypes.func.isRequired,
+  setUser: PropTypes.func.isRequired,
 };
 
 export default Login;

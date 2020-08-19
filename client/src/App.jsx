@@ -9,6 +9,7 @@ const App = () => {
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [confirm, setConfirm] = useState('');
 
   useEffect(() => {
     const loggedUser = localStorage.getItem('user');
@@ -26,10 +27,18 @@ const App = () => {
             password={password}
             setUsername={setUsername}
             setPassword={setPassword}
+            setUser={setUser}
           />
         </Route>
         <Route path='/register'>
-          <Register />
+          <Register
+            username={username}
+            password={password}
+            confirm={confirm}
+            setUsername={setUsername}
+            setPassword={setPassword}
+            setConfirm={setConfirm}
+          />
         </Route>
         <Route path='/'>{user ? <Post /> : <Homepage />}</Route>
       </Switch>

@@ -1,7 +1,19 @@
 import React from 'react';
 
 const Post = () => {
-  return <div>post</div>;
+  const logOut = () => {
+    localStorage.clear();
+    window.location.reload();
+  };
+
+  return (
+    <div>
+      post
+      <button type='button' onClick={logOut}>
+        Log out
+      </button>
+    </div>
+  );
 };
 
 export default Post;
