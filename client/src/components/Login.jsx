@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import {
@@ -10,7 +10,9 @@ import {
   Container,
   Grid,
   Link,
+  Snackbar,
 } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
 import userService from '../services/user';
 
 const useStyles = makeStyles({
@@ -18,7 +20,7 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    marginTop: '5em',
+    marginTop: '8em',
   },
   button: {
     marginTop: '1em',
@@ -29,6 +31,8 @@ const useStyles = makeStyles({
 });
 
 const Login = ({ username, password, setUsername, setPassword, setUser }) => {
+  const [visible, setVisible] = useState(false);
+
   const history = useHistory();
   const classes = useStyles();
 
@@ -42,18 +46,29 @@ const Login = ({ username, password, setUsername, setPassword, setUser }) => {
       setUsername('');
       setPassword('');
     } catch (error) {
-      console.log(error);
+      setVisible(true);
+      setTimeout(() => {
+        setVisible(false);
+      }, 3000);
     }
   };
 
   return (
     <Container maxWidth='xs'>
+      <Snackbar
+        open={visible}
+        anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+      >
+        <Alert severity='error' variant='filled'>
+          Invalid username or password
+        </Alert>
+      </Snackbar>
       <CssBaseline />
       <div className={classes.container}>
         <Typography component='h1' variant='h4'>
           Log in
         </Typography>
-        <form className={classes.form} onSubmit={handleLogin} noValidate>
+        <form className={classes.form} onSubmit={handleLogin}>
           <TextField
             onChange={({ target }) => setUsername(target.value)}
             label='Username'

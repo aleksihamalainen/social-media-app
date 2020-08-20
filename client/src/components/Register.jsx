@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import {
@@ -10,7 +10,9 @@ import {
   Button,
   Grid,
   Link,
+  Snackbar,
 } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
 import userService from '../services/user';
 
 const useStyles = makeStyles({
@@ -18,7 +20,7 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    marginTop: '5em',
+    marginTop: '8em',
   },
   button: {
     marginTop: '1em',
@@ -36,6 +38,9 @@ const Register = ({
   setPassword,
   setConfirm,
 }) => {
+  const [visible, setVisible] = useState(false);
+  const [message, setMessage] = useState('');
+
   const history = useHistory();
   const classes = useStyles();
 
@@ -45,25 +50,41 @@ const Register = ({
       if (password === confirm) {
         await userService.register({ username, password });
         history.push('/login');
+        setUsername('');
+        setPassword('');
+        setConfirm('');
       } else {
-        console.log('Passwords must match');
+        setVisible(true);
+        setMessage('Passwords must match');
+        setTimeout(() => {
+          setVisible(false);
+        }, 3000);
       }
-      setUsername('');
-      setPassword('');
-      setConfirm('');
     } catch (error) {
-      console.log(error);
+      setVisible(true);
+      setMessage('This username is already taken');
+      setTimeout(() => {
+        setVisible(false);
+      }, 3000);
     }
   };
 
   return (
     <Container maxWidth='xs'>
+      <Snackbar
+        open={visible}
+        anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+      >
+        <Alert severity='error' variant='filled'>
+          {message}
+        </Alert>
+      </Snackbar>
       <CssBaseline />
       <div className={classes.container}>
         <Typography component='h1' variant='h4'>
           Register
         </Typography>
-        <form onSubmit={handleRegister} noValidate>
+        <form onSubmit={handleRegister}>
           <TextField
             onChange={({ target }) => setUsername(target.value)}
             label='Username'
