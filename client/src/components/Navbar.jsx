@@ -25,6 +25,8 @@ const Navbar = () => {
   const history = useHistory();
   const classes = useStyles();
 
+  const currentUser = JSON.parse(localStorage.getItem('user'));
+
   const logOut = () => {
     localStorage.clear();
     window.location.reload();
@@ -57,7 +59,9 @@ const Navbar = () => {
             horizontal: 'center',
           }}
         >
-          <MenuItem>My profile</MenuItem>
+          <MenuItem onClick={() => history.push(`/${currentUser.username}`)}>
+            My profile
+          </MenuItem>
           <MenuItem onClick={logOut}>Log out</MenuItem>
         </Menu>
       </Toolbar>

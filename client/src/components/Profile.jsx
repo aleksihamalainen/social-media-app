@@ -1,11 +1,13 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
 import Navbar from './Navbar';
 
 const Profile = () => {
+  const user = useParams().username;
   return (
     <div>
       <Navbar />
-      profile
+      {user}
     </div>
   );
 };

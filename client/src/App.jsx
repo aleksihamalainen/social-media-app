@@ -4,6 +4,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Homepage from './components/Homepage';
 import Post from './components/Post';
+import Profile from './components/Profile';
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -39,6 +40,9 @@ const App = () => {
             setPassword={setPassword}
             setConfirm={setConfirm}
           />
+        </Route>
+        <Route path='/:username'>
+          <Profile />
         </Route>
         <Route path='/'>{user ? <Post /> : <Homepage />}</Route>
       </Switch>
