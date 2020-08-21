@@ -1,5 +1,7 @@
 const express = require('express');
+const jwt = require('jsonwebtoken');
 const Post = require('../models/Post');
+const User = require('../models/User');
 
 const router = express.Router();
 
@@ -17,13 +19,31 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+const getTokenFrom = (request) => {
+  const authorization = request.get('authorization');
+  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+    return authorization.substring(7);
+  }
+  return null;
+};
+
 router.post('/', async (req, res) => {
   try {
-    const post = new Post({
-      content: req.body.content,
-    });
-    const savedPost = await post.save();
-    res.json(savedPost);
+    const token = getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      res.status(401).send({ error: 'Token missing or invalid' });
+    } else {
+      const user = await User.findById(decodedToken.id);
+      const post = new Post({
+        content: req.body.content,
+        user: user._id,
+      });
+      const savedPost = await post.save();
+      user.posts = user.posts.concat(savedPost._id);
+      await user.save();
+      res.json(savedPost);
+    }
   } catch (error) {
     res.status(400).send({ error: 'An error occurred' });
   }
