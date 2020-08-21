@@ -1,7 +1,27 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
+const multer = require('multer');
 const Post = require('../models/Post');
 const User = require('../models/User');
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, './uploads');
+  },
+  filename: (req, file, cb) => {
+    cb(null, new Date().toISOString() + file.originalname);
+  },
+});
+
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+    cb(null, true);
+  } else {
+    cb(new Error('Invalid filetype'), false);
+  }
+};
+
+const upload = multer({ storage, fileFilter });
 
 const router = express.Router();
 
@@ -27,7 +47,7 @@ const getTokenFrom = (request) => {
   return null;
 };
 
-router.post('/', async (req, res) => {
+router.post('/', upload.single('postImage'), async (req, res) => {
   try {
     const token = getTokenFrom(req);
     const decodedToken = jwt.verify(token, process.env.SECRET);
@@ -38,6 +58,7 @@ router.post('/', async (req, res) => {
       const post = new Post({
         content: req.body.content,
         user: user._id,
+        image: req.file.path,
       });
       const savedPost = await post.save();
       user.posts = user.posts.concat(savedPost._id);
