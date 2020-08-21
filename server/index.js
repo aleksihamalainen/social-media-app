@@ -11,6 +11,7 @@ const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.static('build'));
 app.use('/uploads', express.static('uploads/'));
 app.use('/api/posts', postRouter);
 app.use('/api/users', userRouter);
@@ -31,7 +32,7 @@ try {
   console.log(error);
 }
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

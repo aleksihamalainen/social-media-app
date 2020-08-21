@@ -29,6 +29,7 @@ const Navbar = () => {
 
   const logOut = () => {
     localStorage.clear();
+    history.push('/');
     window.location.reload();
   };
 
