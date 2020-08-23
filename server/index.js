@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require('path');
 const bodyParser = require('body-parser');
 const postRouter = require('./routes/posts');
 const userRouter = require('./routes/users');
@@ -17,6 +18,10 @@ app.use('/api/posts', postRouter);
 app.use('/api/users', userRouter);
 app.use('/api/login', loginRouter);
 
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
 app.use((req, res) => {
   res.status(404).send('Page not found');
 });
@@ -32,7 +37,7 @@ try {
   console.log(error);
 }
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

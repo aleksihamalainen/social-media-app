@@ -1,5 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import { CssBaseline, Container } from '@material-ui/core';
 import Navbar from './Navbar';
 
 const Profile = () => {
@@ -7,7 +8,10 @@ const Profile = () => {
   return (
     <div>
       <Navbar />
-      {user}
+      <Container maxWidth='md'>
+        <CssBaseline />
+        {user}
+      </Container>
     </div>
   );
 };
