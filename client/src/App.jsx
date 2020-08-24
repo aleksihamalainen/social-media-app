@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Login from './components/Login';
 import Register from './components/Register';
 import Homepage from './components/Homepage';
-import Post from './components/Post';
+import PostContainer from './components/PostContainer';
 import Profile from './components/Profile';
 
 const App = () => {
@@ -44,7 +44,7 @@ const App = () => {
         <Route path='/:username'>
           <Profile />
         </Route>
-        <Route path='/'>{user ? <Post /> : <Homepage />}</Route>
+        <Route path='/'>{user ? <PostContainer /> : <Homepage />}</Route>
       </Switch>
     </Router>
   );
