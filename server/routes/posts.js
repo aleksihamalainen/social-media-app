@@ -72,8 +72,20 @@ router.post('/', upload.single('postImage'), async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
-    await Post.findByIdAndDelete(req.params.id);
-    res.status(204).end();
+    const token = getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      res.status(401).send({ error: 'Token missing or invalid' });
+    } else {
+      const user = await User.findById(decodedToken.id);
+      const blog = await Post.findById(req.params.id);
+      if (user._id.toString() === blog.user._id.toString()) {
+        await blog.remove();
+        res.status(204).end();
+      } else {
+        res.status(403).send({ error: 'Unauthorized' });
+      }
+    }
   } catch (error) {
     res.status(404).send({ error: 'Post not found' });
   }

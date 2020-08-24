@@ -5,6 +5,7 @@ import Register from './components/Register';
 import Homepage from './components/Homepage';
 import PostContainer from './components/PostContainer';
 import Profile from './components/Profile';
+import postService from './services/post';
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -15,7 +16,9 @@ const App = () => {
   useEffect(() => {
     const loggedUser = localStorage.getItem('user');
     if (loggedUser) {
-      setUser(loggedUser);
+      const parsedUser = JSON.parse(loggedUser);
+      setUser(parsedUser);
+      postService.setToken(parsedUser.token);
     }
   }, []);
 
