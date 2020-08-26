@@ -13,7 +13,7 @@ import {
   Snackbar,
 } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
-import userService from '../services/user';
+import userService from '../services/users';
 
 const useStyles = makeStyles({
   container: {

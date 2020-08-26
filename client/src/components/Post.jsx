@@ -13,7 +13,7 @@ import {
   IconButton,
 } from '@material-ui/core';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import postService from '../services/post';
+import postService from '../services/posts';
 
 const useStyles = makeStyles({
   container: {
@@ -113,6 +113,10 @@ const Post = ({ post }) => {
         </Link>
         &nbsp;
         {post.content}
+      </Typography>
+      <Typography component='div' variant='body2'>
+        Posted &nbsp;
+        {post.date}
       </Typography>
     </Container>
   );

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { makeStyles, Container, CssBaseline } from '@material-ui/core';
 import Navbar from './Navbar';
 import Post from './Post';
-import postService from '../services/post';
+import postService from '../services/posts';
 
 const useStyles = makeStyles({
   container: {

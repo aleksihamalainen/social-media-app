@@ -5,7 +5,7 @@ import Register from './components/Register';
 import Homepage from './components/Homepage';
 import PostContainer from './components/PostContainer';
 import Profile from './components/Profile';
-import postService from './services/post';
+import postService from './services/posts';
 
 const App = () => {
   const [user, setUser] = useState(null);

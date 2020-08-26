@@ -7,19 +7,26 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  Button,
 } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import PostForm from './PostForm';
 
 const useStyles = makeStyles({
   navbar: {
     display: 'flex',
     justifyContent: 'space-between',
   },
+  postButton: {
+    marginLeft: '5em',
+  },
 });
 
 const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [visible, setVisible] = useState(false);
+
   const open = Boolean(anchorEl);
 
   const history = useHistory();
@@ -40,9 +47,19 @@ const Navbar = () => {
   return (
     <AppBar position='sticky'>
       <Toolbar className={classes.navbar}>
-        <IconButton color='inherit' onClick={() => history.push('/')}>
-          <HomeIcon />
-        </IconButton>
+        <div>
+          <IconButton color='inherit' onClick={() => history.push('/')}>
+            <HomeIcon />
+          </IconButton>
+          <Button
+            className={classes.postButton}
+            onClick={() => setVisible(true)}
+            variant='contained'
+          >
+            New post
+          </Button>
+          <PostForm visible={visible} setVisible={setVisible} />
+        </div>
         <IconButton color='inherit' onClick={handleMenu}>
           <AccountCircle />
         </IconButton>
