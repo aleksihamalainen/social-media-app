@@ -18,7 +18,7 @@ const PostContainer = () => {
   const classes = useStyles();
 
   useEffect(() => {
-    postService.getAll().then((result) => setPosts(result));
+    postService.getAll().then((result) => setPosts(result.reverse()));
   }, []);
 
   return (

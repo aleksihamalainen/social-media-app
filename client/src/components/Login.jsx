@@ -14,6 +14,7 @@ import {
 } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import userService from '../services/users';
+import postService from '../services/posts';
 
 const useStyles = makeStyles({
   container: {
@@ -43,6 +44,7 @@ const Login = ({ username, password, setUsername, setPassword, setUser }) => {
       localStorage.setItem('user', JSON.stringify(user));
       history.push('/');
       setUser(user);
+      postService.setToken(user.token);
       setUsername('');
       setPassword('');
     } catch (error) {

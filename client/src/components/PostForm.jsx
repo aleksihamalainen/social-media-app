@@ -84,7 +84,7 @@ const PostForm = ({ visible, setVisible }) => {
           anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
         >
           <Alert severity='error' variant='filled'>
-            Content or photo missing
+            Content or image missing
           </Alert>
         </Snackbar>
         <DialogTitle>Add a new post</DialogTitle>

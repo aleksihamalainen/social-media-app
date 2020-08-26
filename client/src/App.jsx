@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from 'react-router-dom';
 import Login from './components/Login';
 import Register from './components/Register';
 import Homepage from './components/Homepage';
@@ -26,23 +31,31 @@ const App = () => {
     <Router>
       <Switch>
         <Route path='/login'>
-          <Login
-            username={username}
-            password={password}
-            setUsername={setUsername}
-            setPassword={setPassword}
-            setUser={setUser}
-          />
+          {user ? (
+            <Redirect to='/' />
+          ) : (
+            <Login
+              username={username}
+              password={password}
+              setUsername={setUsername}
+              setPassword={setPassword}
+              setUser={setUser}
+            />
+          )}
         </Route>
         <Route path='/register'>
-          <Register
-            username={username}
-            password={password}
-            confirm={confirm}
-            setUsername={setUsername}
-            setPassword={setPassword}
-            setConfirm={setConfirm}
-          />
+          {user ? (
+            <Redirect to='/' />
+          ) : (
+            <Register
+              username={username}
+              password={password}
+              confirm={confirm}
+              setUsername={setUsername}
+              setPassword={setPassword}
+              setConfirm={setConfirm}
+            />
+          )}
         </Route>
         <Route path='/:username'>
           <Profile />

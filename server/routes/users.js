@@ -24,10 +24,14 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:username', async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
-    res.send(user);
+    const user = await User.findOne({ username: req.params.username });
+    if (!user) {
+      res.status(404).send({ error: 'User not found' });
+    } else {
+      res.send(user);
+    }
   } catch (error) {
     res.status(404).send({ error: 'User not found' });
   }
