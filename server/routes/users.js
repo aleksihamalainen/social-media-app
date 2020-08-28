@@ -26,7 +26,9 @@ router.post('/', async (req, res) => {
 
 router.get('/:username', async (req, res) => {
   try {
-    const user = await User.findOne({ username: req.params.username });
+    const user = await User.findOne({ username: req.params.username }).populate(
+      'posts'
+    );
     if (!user) {
       res.status(404).send({ error: 'User not found' });
     } else {

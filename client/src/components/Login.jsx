@@ -31,7 +31,9 @@ const useStyles = makeStyles({
   },
 });
 
-const Login = ({ username, password, setUsername, setPassword, setUser }) => {
+const Login = ({ setUser }) => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [visible, setVisible] = useState(false);
 
   const history = useHistory();
@@ -42,11 +44,11 @@ const Login = ({ username, password, setUsername, setPassword, setUser }) => {
       event.preventDefault();
       const user = await userService.login({ username, password });
       localStorage.setItem('user', JSON.stringify(user));
-      history.push('/');
-      setUser(user);
-      postService.setToken(user.token);
       setUsername('');
       setPassword('');
+      setUser(user);
+      postService.setToken(user.token);
+      history.push('/');
     } catch (error) {
       setVisible(true);
       setTimeout(() => {
@@ -109,10 +111,6 @@ const Login = ({ username, password, setUsername, setPassword, setUser }) => {
 };
 
 Login.propTypes = {
-  username: PropTypes.string.isRequired,
-  password: PropTypes.string.isRequired,
-  setUsername: PropTypes.func.isRequired,
-  setPassword: PropTypes.func.isRequired,
   setUser: PropTypes.func.isRequired,
 };
 

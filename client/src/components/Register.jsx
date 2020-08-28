@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import {
   makeStyles,
@@ -30,14 +29,10 @@ const useStyles = makeStyles({
   },
 });
 
-const Register = ({
-  username,
-  password,
-  confirm,
-  setUsername,
-  setPassword,
-  setConfirm,
-}) => {
+const Register = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirm, setConfirm] = useState('');
   const [visible, setVisible] = useState(false);
   const [message, setMessage] = useState('');
 
@@ -49,10 +44,10 @@ const Register = ({
       event.preventDefault();
       if (password === confirm) {
         await userService.register({ username, password });
-        history.push('/login');
         setUsername('');
         setPassword('');
         setConfirm('');
+        history.push('/login');
       } else {
         setVisible(true);
         setMessage('Passwords must match');
@@ -129,15 +124,6 @@ const Register = ({
       </div>
     </Container>
   );
-};
-
-Register.propTypes = {
-  username: PropTypes.string.isRequired,
-  password: PropTypes.string.isRequired,
-  confirm: PropTypes.string.isRequired,
-  setUsername: PropTypes.func.isRequired,
-  setPassword: PropTypes.func.isRequired,
-  setConfirm: PropTypes.func.isRequired,
 };
 
 export default Register;

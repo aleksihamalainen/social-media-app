@@ -11,12 +11,10 @@ import Homepage from './components/Homepage';
 import PostContainer from './components/PostContainer';
 import Profile from './components/Profile';
 import postService from './services/posts';
+import Navbar from './components/Navbar';
 
 const App = () => {
   const [user, setUser] = useState(null);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirm, setConfirm] = useState('');
 
   useEffect(() => {
     const loggedUser = localStorage.getItem('user');
@@ -29,33 +27,13 @@ const App = () => {
 
   return (
     <Router>
+      {user ? <Navbar /> : null}
       <Switch>
         <Route path='/login'>
-          {user ? (
-            <Redirect to='/' />
-          ) : (
-            <Login
-              username={username}
-              password={password}
-              setUsername={setUsername}
-              setPassword={setPassword}
-              setUser={setUser}
-            />
-          )}
+          {user ? <Redirect to='/' /> : <Login setUser={setUser} />}
         </Route>
         <Route path='/register'>
-          {user ? (
-            <Redirect to='/' />
-          ) : (
-            <Register
-              username={username}
-              password={password}
-              confirm={confirm}
-              setUsername={setUsername}
-              setPassword={setPassword}
-              setConfirm={setConfirm}
-            />
-          )}
+          {user ? <Redirect to='/' /> : <Register />}
         </Route>
         <Route path='/:username'>
           <Profile />
