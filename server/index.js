@@ -18,12 +18,12 @@ app.use('/api/posts', postRouter);
 app.use('/api/users', userRouter);
 app.use('/api/login', loginRouter);
 
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
-
 app.use((req, res) => {
   res.status(404).send('Page not found');
+});
+
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 try {
