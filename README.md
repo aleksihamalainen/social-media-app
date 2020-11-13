@@ -22,7 +22,9 @@ The live version of the application is running [here](https://generic-some-app.h
 
 `cd social-media-app/server`
 
-3. Create a .env file with the following contents:
+3. Create a database at https://www.mongodb.com/cloud/atlas
+
+4. Create a .env file with the following contents:
 
 ```
 PORT=3001
@@ -30,11 +32,11 @@ MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.sn7qe.mongodb.net/<dbna
 SECRET=secret
 ```
 
-4. Install the required dependencies
+5. Install the required dependencies
 
 `npm install`
 
-5. Start the project
+6. Start the project
 
 `npm start`
 
