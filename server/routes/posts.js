@@ -25,20 +25,6 @@ const upload = multer({ storage, fileFilter });
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
-  const posts = await Post.find({}).populate('user');
-  res.json(posts);
-});
-
-router.get('/:id', async (req, res) => {
-  try {
-    const post = await Post.findById(req.params.id);
-    res.json(post);
-  } catch (error) {
-    res.status(404).send({ error: 'Post not found' });
-  }
-});
-
 const getTokenFrom = (request) => {
   const authorization = request.get('authorization');
   if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
@@ -46,6 +32,36 @@ const getTokenFrom = (request) => {
   }
   return null;
 };
+
+router.get('/', async (req, res) => {
+  try {
+    const token = getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      res.status(401).send({ error: 'Token missing or invalid' });
+    } else {
+      const posts = await Post.find({}).populate('user');
+      res.json(posts);
+    }
+  } catch (error) {
+    res.status(404).send({ error: 'An unknown error occurred' });
+  }
+});
+
+router.get('/:id', async (req, res) => {
+  try {
+    const token = getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      res.status(401).send({ error: 'Token missing or invalid' });
+    } else {
+      const post = await Post.findById(req.params.id);
+      res.json(post);
+    }
+  } catch (error) {
+    res.status(404).send({ error: 'Post not found' });
+  }
+});
 
 router.post('/', upload.single('postImage'), async (req, res) => {
   try {
