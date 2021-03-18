@@ -31,24 +31,18 @@ The live version of the application is running [here](https://generic-some-app.h
 4. Create a .env file with the following contents:
 
    ```
-
    PORT=
 
    MONGODB_URI=
 
    SECRET=
-
    ```
 
-5. Create a directory for the images
-
-   `mkdir uploads`
-
-6. Install the required dependencies
+5. Install the required dependencies
 
    `npm install`
 
-7. Start the project
+6. Start the project
 
    `npm start`
 
