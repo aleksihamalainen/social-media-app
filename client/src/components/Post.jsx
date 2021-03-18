@@ -41,7 +41,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Post = ({ post }) => {
+const Post = ({ post, posts, setPosts }) => {
   const [open, setOpen] = useState(false);
 
   const classes = useStyles();
@@ -50,6 +50,7 @@ const Post = ({ post }) => {
 
   const handleDelete = () => {
     postService.remove(post._id);
+    setPosts(posts.filter(p => p !== post))
     setOpen(false);
   };
 
@@ -124,6 +125,8 @@ const Post = ({ post }) => {
 
 Post.propTypes = {
   post: PropTypes.instanceOf(Object).isRequired,
+  posts: PropTypes.array.isRequired,
+  setPosts: PropTypes.func.isRequired
 };
 
 export default Post;

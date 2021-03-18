@@ -24,7 +24,7 @@ const PostContainer = () => {
     <Container maxWidth='md' className={classes.container}>
       <CssBaseline />
       {posts.map((post) => {
-        return <Post key={post._id} post={post} />;
+        return <Post key={post._id} post={post} posts={posts} setPosts={setPosts}/>;
       })}
     </Container>
   );
