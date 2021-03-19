@@ -44,10 +44,10 @@ const Login = ({ setUser }) => {
       event.preventDefault();
       const user = await userService.login({ username, password });
       localStorage.setItem('user', JSON.stringify(user));
+      postService.setToken(user.token);
       setUsername('');
       setPassword('');
       setUser(user);
-      postService.setToken(user.token);
       history.push('/');
     } catch (error) {
       setVisible(true);

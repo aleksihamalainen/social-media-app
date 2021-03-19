@@ -34,8 +34,8 @@ const getTokenFrom = (request) => {
 };
 
 router.get('/', async (req, res) => {
+  const token = getTokenFrom(req);
   try {
-    const token = getTokenFrom(req);
     const decodedToken = jwt.verify(token, process.env.SECRET);
     if (!token || !decodedToken.id) {
       res.status(401).send({ error: 'Token missing or invalid' });
@@ -44,7 +44,7 @@ router.get('/', async (req, res) => {
       res.json(posts);
     }
   } catch (error) {
-    res.status(404).send({ error: 'An unknown error occurred' });
+    res.status(400).send({ error: 'An error occurred' });
   }
 });
 
@@ -64,8 +64,8 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', upload.single('postImage'), async (req, res) => {
+  const token = getTokenFrom(req);
   try {
-    const token = getTokenFrom(req);
     const decodedToken = jwt.verify(token, process.env.SECRET);
     if (!token || !decodedToken.id) {
       res.status(401).send({ error: 'Token missing or invalid' });

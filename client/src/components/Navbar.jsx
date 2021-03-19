@@ -36,6 +36,7 @@ const Navbar = () => {
 
   const logOut = () => {
     localStorage.clear();
+    setAnchorEl(null)
     history.push('/');
     window.location.reload();
   };
@@ -77,7 +78,7 @@ const Navbar = () => {
             horizontal: 'center',
           }}
         >
-          <MenuItem onClick={() => history.push(`/${currentUser.username}`)}>
+          <MenuItem onClick={() => {history.push(`/${currentUser.username}`); setAnchorEl(null)}}>
             My profile
           </MenuItem>
           <MenuItem onClick={logOut}>Log out</MenuItem>
