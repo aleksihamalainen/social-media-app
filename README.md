@@ -9,10 +9,11 @@ The live version of the application is running [here](https://generic-some-app.h
 - React
 
 - Node.js
-
 - Express
 
 - MongoDB
+
+- Docker
 
 - Material-UI
 
@@ -32,9 +33,7 @@ The live version of the application is running [here](https://generic-some-app.h
 
    ```
    PORT=
-
    MONGODB_URI=
-
    SECRET=
    ```
 
@@ -45,6 +44,20 @@ The live version of the application is running [here](https://generic-some-app.h
 6. Start the project
 
    `npm start`
+
+### Using Docker
+
+If you want to run the project using Docker, you can skip steps 5 and 6 above, and use the following commands instead:
+
+5. Build a Docker image
+
+   `docker build . -t social-media-app`
+
+6. Run the previously built image:
+
+   `docker run -p 3001:3001 social-media-app`
+
+Now the project is running at localhost on port 3001.
 
 ## Features
 
