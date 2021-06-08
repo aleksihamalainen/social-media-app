@@ -37,7 +37,7 @@ const Homepage = () => {
       <div className={classes.elementContainer}>
         <CssBaseline />
         <Typography component='h1' variant='h2' className={classes.title}>
-          Homepage
+          test
         </Typography>
         <div className={classes.buttonContainer}>
           <Button
