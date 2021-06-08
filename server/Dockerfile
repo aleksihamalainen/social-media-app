@@ -6,6 +6,8 @@ COPY package*.json ./
 
 RUN npm install
 
+RUN npm run copy-build
+
 COPY . .
 
 EXPOSE 3001
