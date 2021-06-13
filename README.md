@@ -51,7 +51,7 @@ If you want to run the project using Docker, you can skip steps 5 and 6 above, a
 
 5. Build a Docker image
 
-   `docker build . -t social-media-app`
+   `docker build -t social-media-app .`
 
 6. Run the previously built image:
 
