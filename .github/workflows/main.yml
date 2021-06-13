@@ -14,13 +14,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Create .env file
-        - run: echo "MONGODB_URI='$HEROKU_MONGODB_URI'\nSECRET='$HEROKU_SECRET'\nPORT=$HEROKU_PORT" > .env
-          shell: bash
-          env:
-            HEROKU_PORT: ${{secrets.HEROKU_PORT}}
-            HEROKU_MONGODB_URI: ${{secrets.HEROKU_MONGODB_URI}} 
-            HEROKU_SECRET: ${{secrets.HEROKU_SECRET}} 
+      - name: Create env file
+        run: echo "MONGODB_URI='$HEROKU_MONGODB_URI'\nSECRET='$HEROKU_SECRET'\nPORT=$HEROKU_PORT" > .env
+        shell: bash
+        env:
+          HEROKU_PORT: ${{secrets.HEROKU_PORT}}
+          HEROKU_MONGODB_URI: ${{secrets.HEROKU_MONGODB_URI}}
+          HEROKU_SECRET: ${{secrets.HEROKU_SECRET}}
       - name: Login to Heroku Container registry
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
