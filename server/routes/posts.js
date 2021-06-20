@@ -94,9 +94,9 @@ router.delete('/:id', async (req, res) => {
       res.status(401).send({ error: 'Token missing or invalid' });
     } else {
       const user = await User.findById(decodedToken.id);
-      const blog = await Post.findById(req.params.id);
-      if (user._id.toString() === blog.user._id.toString()) {
-        await blog.remove();
+      const post = await Post.findById(req.params.id);
+      if (user._id.toString() === post.user._id.toString()) {
+        await post.remove();
         res.status(204).end();
       } else {
         res.status(403).send({ error: 'Unauthorized' });
@@ -104,6 +104,46 @@ router.delete('/:id', async (req, res) => {
     }
   } catch (error) {
     res.status(404).send({ error: 'Post not found' });
+  }
+});
+
+router.post('/:id/likes', async (req, res) => {
+  try {
+    const token = getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    const user = await User.findById(decodedToken.id);
+    const post = await Post.findById(req.params.id);
+    if (post.likers.includes(user._id)) {
+      res.status(400).send({ error: 'You have liked this post already' });
+    } else {
+      await post.updateOne({
+        $inc: { likes: 1 },
+        $push: { likers: user },
+      });
+      res.status(200).end();
+    }
+  } catch (error) {
+    res.status(400).send({ error: 'Post not found or token missing' });
+  }
+});
+
+router.delete('/:id/likes', async (req, res) => {
+  try {
+    const token = getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    const user = await User.findById(decodedToken.id);
+    const post = await Post.findById(req.params.id);
+    if (post.likers.includes(user._id)) {
+      await post.updateOne({
+        $inc: { likes: -1 },
+        $pull: { likers: user._id },
+      });
+    } else {
+      res.status(400).send({ error: 'You have not liked this post' });
+    }
+    res.status(200).end();
+  } catch (error) {
+    res.status(400).send({ error: 'Post not found or token missing' });
   }
 });
 
