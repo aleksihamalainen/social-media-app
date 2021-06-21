@@ -78,7 +78,7 @@ const Navbar = () => {
             horizontal: 'center',
           }}
         >
-          <MenuItem onClick={() => {history.push(`/${currentUser.username}`); setAnchorEl(null)}}>
+          <MenuItem onClick={() => {history.push(`/users/${currentUser.username}`); setAnchorEl(null)}}>
             My profile
           </MenuItem>
           <MenuItem onClick={logOut}>Log out</MenuItem>

@@ -59,7 +59,7 @@ const Post = ({ post, posts, setPosts }) => {
       <CssBaseline />
       <div className={classes.upper}>
         <Typography component='h1' variant='h6'>
-          <Link href={`/${post.user.username}`} color='inherit'>
+          <Link href={`/users/${post.user.username}`} color='inherit'>
             {post.user.username}
           </Link>
         </Typography>

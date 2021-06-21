@@ -50,8 +50,10 @@ const Profile = () => {
   const classes = useStyles();
 
   const name = useParams().username;
+  const currentUser = JSON.parse(localStorage.getItem('user'));
 
   useEffect(() => {
+    userService.setToken(currentUser.token);
     userService.findByUsername(name).then((response) => {
       setUser(response);
     });
@@ -71,11 +73,12 @@ const Profile = () => {
               >
                 {user.username}
               </Typography>
-              <div className={classes.button}>
-                <Button variant='contained' color='primary'>
-                  Follow
-                </Button>
-              </div>
+              {user.username !== currentUser.username ? (
+                <div className={classes.button}>
+                  <Button variant='contained' color='primary'>
+                    Follow
+                  </Button>
+                </div>) : null}
             </div>
             <Typography component='div' variant='body1'>
               <div className={classes.followRow}>

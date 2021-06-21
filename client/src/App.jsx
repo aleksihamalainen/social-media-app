@@ -10,8 +10,9 @@ import Register from './components/Register';
 import Homepage from './components/Homepage';
 import PostContainer from './components/PostContainer';
 import Profile from './components/Profile';
-import postService from './services/posts';
 import Navbar from './components/Navbar';
+import postService from './services/posts';
+import userService from './services/users'
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -22,6 +23,7 @@ const App = () => {
       const parsedUser = JSON.parse(loggedUser);
       setUser(parsedUser);
       postService.setToken(parsedUser.token);
+      userService.setToken(parsedUser.token);
     }
   }, []);
 
@@ -35,7 +37,7 @@ const App = () => {
         <Route path='/register'>
           {user ? <Redirect to='/' /> : <Register />}
         </Route>
-        <Route path='/:username'>
+        <Route path='/users/:username'>
           <Profile />
         </Route>
         <Route path='/'>{user ? <PostContainer /> : <Homepage />}</Route>

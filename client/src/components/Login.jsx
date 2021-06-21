@@ -45,6 +45,7 @@ const Login = ({ setUser }) => {
       const user = await userService.login({ username, password });
       localStorage.setItem('user', JSON.stringify(user));
       postService.setToken(user.token);
+      userService.setToken(user.token);
       setUsername('');
       setPassword('');
       setUser(user);
