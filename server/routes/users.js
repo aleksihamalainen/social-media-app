@@ -80,4 +80,66 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+router.post('/:id/followers', async (req, res) => {
+  try {
+    const token = getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    const currentUser = await User.findById(decodedToken.id);
+    try {
+      const user = await User.findById(req.params.id);
+      if (decodedToken.id.toString() !== user._id.toString()) {
+        if (user.followers.includes(currentUser._id)) {
+          res
+            .status(400)
+            .send({ error: 'You have followed this user already' });
+        } else {
+          await user.updateOne({
+            $push: { followers: currentUser },
+          });
+          await currentUser.updateOne({
+            $push: { following: user },
+          });
+          res.status(200).end();
+        }
+      } else {
+        res.status(403).send({ error: 'You cannot follow yourself' });
+      }
+    } catch (error) {
+      res.status(404).send({ error: 'User not found' });
+    }
+  } catch (error) {
+    res.status(401).send({ error: 'Token missing or invalid' });
+  }
+});
+
+router.delete('/:id/followers', async (req, res) => {
+  try {
+    const token = getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    const currentUser = await User.findById(decodedToken.id);
+    try {
+      const user = await User.findById(req.params.id);
+      if (decodedToken.id.toString() !== user._id.toString()) {
+        if (!user.followers.includes(currentUser._id)) {
+          res.status(400).send({ error: 'You have not followed this user' });
+        } else {
+          await user.updateOne({
+            $pull: { followers: currentUser._id },
+          });
+          await currentUser.updateOne({
+            $pull: { following: user._id },
+          });
+          res.status(200).end();
+        }
+      } else {
+        res.status(403).send({ error: 'You cannot unfollow yourself' });
+      }
+    } catch (error) {
+      res.status(404).send({ error: 'User not found' });
+    }
+  } catch (error) {
+    res.status(401).send({ error: 'Token missing or invalid' });
+  }
+});
+
 module.exports = router;
