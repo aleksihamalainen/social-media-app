@@ -11,6 +11,7 @@ import Homepage from './components/Homepage';
 import PostContainer from './components/PostContainer';
 import Profile from './components/Profile';
 import Navbar from './components/Navbar';
+import NotFound from './components/NotFound';
 import postService from './services/posts';
 import userService from './services/users'
 
@@ -40,7 +41,8 @@ const App = () => {
         <Route path='/users/:username'>
           <Profile />
         </Route>
-        <Route path='/'>{user ? <PostContainer /> : <Homepage />}</Route>
+        <Route exact path='/'>{user ? <PostContainer /> : <Homepage />}</Route>
+        <Route path='*' component={NotFound} />
       </Switch>
     </Router>
   );

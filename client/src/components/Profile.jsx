@@ -8,6 +8,7 @@ import {
   Typography,
   Button,
 } from '@material-ui/core';
+import NotFound from './NotFound'
 import userService from '../services/users';
 
 const useStyles = makeStyles({
@@ -51,9 +52,9 @@ const Profile = () => {
 
   const name = useParams().username;
   const currentUser = JSON.parse(localStorage.getItem('user'));
+  userService.setToken(currentUser.token);
 
   useEffect(() => {
-    userService.setToken(currentUser.token);
     userService.findByUsername(name).then((response) => {
       setUser(response);
     });
@@ -62,7 +63,7 @@ const Profile = () => {
   return (
     <div>
       <CssBaseline />
-      {user && (
+      {user ? (
         <Container maxWidth='md'>
           <div className={classes.info}>
             <div className={classes.titleRow}>
@@ -109,7 +110,8 @@ const Profile = () => {
             ))}
           </div>
         </Container>
-      )}
+      ) : 
+      <NotFound />}
     </div>
   );
 };
