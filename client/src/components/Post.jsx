@@ -12,8 +12,10 @@ import {
   DialogActions,
   IconButton,
 } from '@material-ui/core';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import postService from '../services/posts';
+import userService from '../services/users';
 
 const useStyles = makeStyles({
   container: {
@@ -71,7 +73,20 @@ const Post = ({ post, posts, setPosts }) => {
           >
             Delete
           </Button>
-        ) : null}
+        ) : post.user.followers.includes(currentUser.id) ?
+        <Button
+          variant='contained'
+          color='default'
+          onClick={() => userService.unfollow(post.user._id)}
+        >
+          Unfollow
+        </Button> : <Button
+            variant='contained'
+            color='primary'
+            onClick={() => userService.unfollow(post.user._id)}
+          >
+            Follow
+          </Button>}
         <Dialog open={open} onClose={() => setOpen(false)}>
           <DialogTitle>Are you sure you want to delete this post?</DialogTitle>
           <DialogActions>
@@ -96,9 +111,13 @@ const Post = ({ post, posts, setPosts }) => {
         className={classes.image}
       />
       <Typography component='div' className={classes.likeContainer}>
-        <IconButton className={classes.heart}>
-          <FavoriteBorderIcon />
-        </IconButton>
+        {post.likers.includes(currentUser.id) ?
+        <IconButton className={classes.heart} onClick={() => postService.dislike(post._id)}>
+          <FavoriteIcon color="secondary"/>
+        </IconButton> :
+        <IconButton className={classes.heart} onClick={() => postService.like(post._id)}>
+          <FavoriteBorderIcon color="secondary"/>
+        </IconButton>}
         <div>
           {post.likes}
           &nbsp;likes

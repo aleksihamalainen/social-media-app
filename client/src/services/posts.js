@@ -32,4 +32,20 @@ const remove = async (id) => {
   return response.data;
 };
 
-export default { setToken, getAll, post, remove };
+const like = async (id) => {
+  const config = {
+    headers: { Authorization: token },
+  };
+  const response = await axios.post(`${baseUrl}/${id}/likes`, {}, config);
+  return response.data;
+};
+
+const dislike = async (id) => {
+  const config = {
+    headers: { Authorization: token },
+  };
+  const response = await axios.delete(`${baseUrl}/${id}/likes`, config);
+  return response.data;
+};
+
+export default { setToken, getAll, post, remove, like, dislike };

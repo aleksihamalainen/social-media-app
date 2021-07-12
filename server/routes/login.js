@@ -17,7 +17,7 @@ router.post('/', async (req, res) => {
         id: user.id,
       };
       const token = jwt.sign(userForToken, process.env.SECRET);
-      res.status(200).send({ token, username: user.username });
+      res.status(200).send({ token, username: user.username, id: user.id });
     }
   } catch (error) {
     res.status(400).send({ error: 'An error occurred' });

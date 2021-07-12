@@ -76,9 +76,14 @@ const Profile = () => {
               </Typography>
               {user.username !== currentUser.username ? (
                 <div className={classes.button}>
-                  <Button variant='contained' color='primary'>
+                  {user.followers.includes(currentUser.id) ? 
+                    <Button variant='contained' color='default' onClick={() => userService.unfollow(user._id)}>
+                      Unfollow
+                    </Button>
+                   :
+                  <Button variant='contained' color='primary' onClick={() => userService.follow(user._id)}>
                     Follow
-                  </Button>
+                  </Button>}
                 </div>) : null}
             </div>
             <Typography component='div' variant='body1'>

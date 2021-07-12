@@ -26,4 +26,20 @@ const findByUsername = async (username) => {
   return response.data;
 };
 
-export default { setToken, login, register, findByUsername };
+const follow = async (id) => {
+  const config = {
+    headers: { Authorization: token },
+  };
+  const response = await axios.post(`${baseUrl}/${id}/followers`, {}, config);
+  return response.data;
+};
+
+const unfollow = async (id) => {
+  const config = {
+    headers: { Authorization: token },
+  };
+  const response = await axios.delete(`${baseUrl}/${id}/followers`, config);
+  return response.data;
+};
+
+export default { setToken, login, register, findByUsername, follow, unfollow };
