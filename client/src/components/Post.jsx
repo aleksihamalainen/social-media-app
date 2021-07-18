@@ -49,13 +49,15 @@ const Post = ({ post, posts, setPosts }) => {
   const [open, setOpen] = useState(false);
   const [likes, setLikes] = useState(post.likes);
   const [like, setLike] = useState(post.likers.includes(currentUser.id));
-  const [following, setFollowing] = useState(post.user.followers.includes(currentUser.id));
+  const [following, setFollowing] = useState(
+    post.user.followers.includes(currentUser.id)
+  );
 
   const classes = useStyles();
 
   const handleDelete = () => {
     postService.remove(post._id);
-    setPosts(posts.filter(p => p !== post))
+    setPosts(posts.filter((p) => p !== post));
     setOpen(false);
   };
 
@@ -63,23 +65,23 @@ const Post = ({ post, posts, setPosts }) => {
     postService.like(post._id);
     setLike(true);
     setLikes(likes + 1);
-  }
+  };
 
   const handleDislike = () => {
     postService.dislike(post._id);
     setLike(false);
     setLikes(likes - 1);
-  }
+  };
 
   const handleFollow = () => {
     userService.follow(post.user._id);
     setFollowing(true);
-  }
+  };
 
   const handleUnfollow = () => {
     userService.unfollow(post.user._id);
     setFollowing(false);
-  }
+  };
 
   return (
     <Container maxWidth='md' className={classes.container}>
@@ -98,20 +100,15 @@ const Post = ({ post, posts, setPosts }) => {
           >
             Delete
           </Button>
-        ) : following ?
-        <Button
-          variant='contained'
-          color='default'
-          onClick={handleUnfollow}
-        >
-          Unfollow
-        </Button> : <Button
-            variant='contained'
-            color='primary'
-            onClick={handleFollow}
-          >
+        ) : following ? (
+          <Button variant='contained' color='default' onClick={handleUnfollow}>
+            Unfollow
+          </Button>
+        ) : (
+          <Button variant='contained' color='primary' onClick={handleFollow}>
             Follow
-          </Button>}
+          </Button>
+        )}
         <Dialog open={open} onClose={() => setOpen(false)}>
           <DialogTitle>Are you sure you want to delete this post?</DialogTitle>
           <DialogActions>
@@ -136,13 +133,15 @@ const Post = ({ post, posts, setPosts }) => {
         className={classes.image}
       />
       <Typography component='div' className={classes.likeContainer}>
-        {like ?
-        <IconButton className={classes.heart} onClick={handleDislike}>
-          <FavoriteIcon color="secondary"/>
-        </IconButton> :
-        <IconButton className={classes.heart} onClick={handleLike}>
-          <FavoriteBorderIcon color="secondary"/>
-        </IconButton>}
+        {like ? (
+          <IconButton className={classes.heart} onClick={handleDislike}>
+            <FavoriteIcon color='secondary' />
+          </IconButton>
+        ) : (
+          <IconButton className={classes.heart} onClick={handleLike}>
+            <FavoriteBorderIcon color='secondary' />
+          </IconButton>
+        )}
         <Link color='inherit'>
           {likes}
           &nbsp;likes
@@ -170,7 +169,7 @@ const Post = ({ post, posts, setPosts }) => {
 Post.propTypes = {
   post: PropTypes.instanceOf(Object).isRequired,
   posts: PropTypes.array.isRequired,
-  setPosts: PropTypes.func.isRequired
+  setPosts: PropTypes.func.isRequired,
 };
 
 export default Post;

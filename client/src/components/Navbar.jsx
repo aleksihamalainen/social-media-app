@@ -37,7 +37,7 @@ const Navbar = ({ posts, setPosts }) => {
 
   const logOut = () => {
     localStorage.clear();
-    setAnchorEl(null)
+    setAnchorEl(null);
     history.push('/');
     window.location.reload();
   };
@@ -60,7 +60,12 @@ const Navbar = ({ posts, setPosts }) => {
           >
             New post
           </Button>
-          <PostForm visible={visible} setVisible={setVisible} posts={posts} setPosts={setPosts} />
+          <PostForm
+            visible={visible}
+            setVisible={setVisible}
+            posts={posts}
+            setPosts={setPosts}
+          />
         </div>
         <IconButton color='inherit' onClick={handleMenu}>
           <AccountCircle />
@@ -79,7 +84,12 @@ const Navbar = ({ posts, setPosts }) => {
             horizontal: 'center',
           }}
         >
-          <MenuItem onClick={() => {history.push(`/users/${currentUser.username}`); setAnchorEl(null)}}>
+          <MenuItem
+            onClick={() => {
+              history.push(`/users/${currentUser.username}`);
+              setAnchorEl(null);
+            }}
+          >
             My profile
           </MenuItem>
           <MenuItem onClick={logOut}>Log out</MenuItem>

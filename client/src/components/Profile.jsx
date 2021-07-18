@@ -65,12 +65,12 @@ const Profile = () => {
   const handleFollow = () => {
     userService.follow(user._id);
     setFollowing(true);
-  }
+  };
 
   const handleUnfollow = () => {
     userService.unfollow(user._id);
     setFollowing(false);
-  }
+  };
 
   return (
     <div>
@@ -89,15 +89,25 @@ const Profile = () => {
               </Typography>
               {user.username !== currentUser.username ? (
                 <div className={classes.button}>
-                  {following ? 
-                    <Button variant='contained' color='default' onClick={handleUnfollow}>
+                  {following ? (
+                    <Button
+                      variant='contained'
+                      color='default'
+                      onClick={handleUnfollow}
+                    >
                       Unfollow
                     </Button>
-                   :
-                  <Button variant='contained' color='primary' onClick={handleFollow}>
-                    Follow
-                  </Button>}
-                </div>) : null}
+                  ) : (
+                    <Button
+                      variant='contained'
+                      color='primary'
+                      onClick={handleFollow}
+                    >
+                      Follow
+                    </Button>
+                  )}
+                </div>
+              ) : null}
             </div>
             <Typography component='div' variant='body1'>
               <div className={classes.followRow}>
@@ -128,8 +138,9 @@ const Profile = () => {
             ))}
           </div>
         </Container>
-      ) : 
-      <NotFound />}
+      ) : (
+        <NotFound />
+      )}
     </div>
   );
 };

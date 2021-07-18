@@ -23,13 +23,20 @@ const PostContainer = () => {
 
   return (
     <div>
-    <Navbar posts={posts} setPosts={setPosts} />
-    <Container maxWidth='md' className={classes.container}>
-      <CssBaseline />
-      {posts.map((post) => {
-        return <Post key={post._id} post={post} posts={posts} setPosts={setPosts}/>;
-      })}
-    </Container>
+      <Navbar posts={posts} setPosts={setPosts} />
+      <Container maxWidth='md' className={classes.container}>
+        <CssBaseline />
+        {posts.map((post) => {
+          return (
+            <Post
+              key={post._id}
+              post={post}
+              posts={posts}
+              setPosts={setPosts}
+            />
+          );
+        })}
+      </Container>
     </div>
   );
 };

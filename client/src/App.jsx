@@ -12,7 +12,7 @@ import PostContainer from './components/PostContainer';
 import Profile from './components/Profile';
 import NotFound from './components/NotFound';
 import postService from './services/posts';
-import userService from './services/users'
+import userService from './services/users';
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -39,7 +39,9 @@ const App = () => {
         <Route path='/users/:username'>
           <Profile />
         </Route>
-        <Route exact path='/'>{user ? <PostContainer /> : <Homepage />}</Route>
+        <Route exact path='/'>
+          {user ? <PostContainer /> : <Homepage />}
+        </Route>
         <Route path='*' component={NotFound} />
       </Switch>
     </Router>
