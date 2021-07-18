@@ -10,7 +10,6 @@ import Register from './components/Register';
 import Homepage from './components/Homepage';
 import PostContainer from './components/PostContainer';
 import Profile from './components/Profile';
-import Navbar from './components/Navbar';
 import NotFound from './components/NotFound';
 import postService from './services/posts';
 import userService from './services/users'
@@ -30,7 +29,6 @@ const App = () => {
 
   return (
     <Router>
-      {user ? <Navbar /> : null}
       <Switch>
         <Route path='/login'>
           {user ? <Redirect to='/' /> : <Login setUser={setUser} />}

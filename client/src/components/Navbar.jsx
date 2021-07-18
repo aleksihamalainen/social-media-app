@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import {
   makeStyles,
@@ -23,7 +24,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Navbar = () => {
+const Navbar = ({ posts, setPosts }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [visible, setVisible] = useState(false);
 
@@ -59,7 +60,7 @@ const Navbar = () => {
           >
             New post
           </Button>
-          <PostForm visible={visible} setVisible={setVisible} />
+          <PostForm visible={visible} setVisible={setVisible} posts={posts} setPosts={setPosts} />
         </div>
         <IconButton color='inherit' onClick={handleMenu}>
           <AccountCircle />
@@ -86,6 +87,11 @@ const Navbar = () => {
       </Toolbar>
     </AppBar>
   );
+};
+
+PostForm.propTypes = {
+  posts: PropTypes.array,
+  setPosts: PropTypes.func,
 };
 
 export default Navbar;

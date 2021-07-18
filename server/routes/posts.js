@@ -67,7 +67,7 @@ router.post('/', upload.single('postImage'), async (req, res) => {
     try {
       const post = new Post({
         content: req.body.content,
-        user: user._id,
+        user,
         image: req.file.path,
       });
       const savedPost = await post.save();

@@ -44,17 +44,42 @@ const useStyles = makeStyles({
 });
 
 const Post = ({ post, posts, setPosts }) => {
+  const currentUser = JSON.parse(localStorage.getItem('user'));
+
   const [open, setOpen] = useState(false);
+  const [likes, setLikes] = useState(post.likes);
+  const [like, setLike] = useState(post.likers.includes(currentUser.id));
+  const [following, setFollowing] = useState(post.user.followers.includes(currentUser.id));
 
   const classes = useStyles();
-
-  const currentUser = JSON.parse(localStorage.getItem('user'));
 
   const handleDelete = () => {
     postService.remove(post._id);
     setPosts(posts.filter(p => p !== post))
     setOpen(false);
   };
+
+  const handleLike = () => {
+    postService.like(post._id);
+    setLike(true);
+    setLikes(likes + 1);
+  }
+
+  const handleDislike = () => {
+    postService.dislike(post._id);
+    setLike(false);
+    setLikes(likes - 1);
+  }
+
+  const handleFollow = () => {
+    userService.follow(post.user._id);
+    setFollowing(true);
+  }
+
+  const handleUnfollow = () => {
+    userService.unfollow(post.user._id);
+    setFollowing(false);
+  }
 
   return (
     <Container maxWidth='md' className={classes.container}>
@@ -73,17 +98,17 @@ const Post = ({ post, posts, setPosts }) => {
           >
             Delete
           </Button>
-        ) : post.user.followers.includes(currentUser.id) ?
+        ) : following ?
         <Button
           variant='contained'
           color='default'
-          onClick={() => userService.unfollow(post.user._id)}
+          onClick={handleUnfollow}
         >
           Unfollow
         </Button> : <Button
             variant='contained'
             color='primary'
-            onClick={() => userService.unfollow(post.user._id)}
+            onClick={handleFollow}
           >
             Follow
           </Button>}
@@ -111,21 +136,21 @@ const Post = ({ post, posts, setPosts }) => {
         className={classes.image}
       />
       <Typography component='div' className={classes.likeContainer}>
-        {post.likers.includes(currentUser.id) ?
-        <IconButton className={classes.heart} onClick={() => postService.dislike(post._id)}>
+        {like ?
+        <IconButton className={classes.heart} onClick={handleDislike}>
           <FavoriteIcon color="secondary"/>
         </IconButton> :
-        <IconButton className={classes.heart} onClick={() => postService.like(post._id)}>
+        <IconButton className={classes.heart} onClick={handleLike}>
           <FavoriteBorderIcon color="secondary"/>
         </IconButton>}
-        <div>
-          {post.likes}
+        <Link color='inherit'>
+          {likes}
           &nbsp;likes
-        </div>
+        </Link>
       </Typography>
       <Typography component='div' variant='body2'>
         <Link
-          href={`/${post.user.username}`}
+          href={`/users/${post.user.username}`}
           color='inherit'
           className={classes.usernameLink}
         >

@@ -23,7 +23,7 @@ const useStyles = makeStyles({
   },
 });
 
-const PostForm = ({ visible, setVisible }) => {
+const PostForm = ({ visible, setVisible, posts, setPosts }) => {
   const [content, setContent] = useState('');
   const [file, setFile] = useState(null);
   const [error, setError] = useState(false);
@@ -55,7 +55,9 @@ const PostForm = ({ visible, setVisible }) => {
         const formData = new FormData();
         formData.append('content', content);
         formData.append('postImage', file);
-        postService.post(formData);
+        postService.post(formData).then((response) => {
+          setPosts(posts.concat(response).reverse());
+        });
         setNotificationMessage();
         setContent('');
         setVisible(false);
@@ -117,6 +119,8 @@ const PostForm = ({ visible, setVisible }) => {
 PostForm.propTypes = {
   visible: PropTypes.bool.isRequired,
   setVisible: PropTypes.func.isRequired,
+  posts: PropTypes.array.isRequired,
+  setPosts: PropTypes.func.isRequired,
 };
 
 export default PostForm;

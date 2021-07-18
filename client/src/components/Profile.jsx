@@ -8,7 +8,8 @@ import {
   Typography,
   Button,
 } from '@material-ui/core';
-import NotFound from './NotFound'
+import Navbar from './Navbar';
+import NotFound from './NotFound';
 import userService from '../services/users';
 
 const useStyles = makeStyles({
@@ -48,6 +49,7 @@ const useStyles = makeStyles({
 
 const Profile = () => {
   const [user, setUser] = useState(null);
+  const [following, setFollowing] = useState(false);
   const classes = useStyles();
 
   const name = useParams().username;
@@ -60,8 +62,19 @@ const Profile = () => {
     });
   }, [name]);
 
+  const handleFollow = () => {
+    userService.follow(user._id);
+    setFollowing(true);
+  }
+
+  const handleUnfollow = () => {
+    userService.unfollow(user._id);
+    setFollowing(false);
+  }
+
   return (
     <div>
+      <Navbar />
       <CssBaseline />
       {user ? (
         <Container maxWidth='md'>
@@ -76,12 +89,12 @@ const Profile = () => {
               </Typography>
               {user.username !== currentUser.username ? (
                 <div className={classes.button}>
-                  {user.followers.includes(currentUser.id) ? 
-                    <Button variant='contained' color='default' onClick={() => userService.unfollow(user._id)}>
+                  {following ? 
+                    <Button variant='contained' color='default' onClick={handleUnfollow}>
                       Unfollow
                     </Button>
                    :
-                  <Button variant='contained' color='primary' onClick={() => userService.follow(user._id)}>
+                  <Button variant='contained' color='primary' onClick={handleFollow}>
                     Follow
                   </Button>}
                 </div>) : null}
