@@ -76,7 +76,7 @@ const PostForm = ({ visible, setVisible, posts, setPosts }) => {
         anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
       >
         <Alert severity='success' variant='filled'>
-          Post successfully added
+          Post added successfully
         </Alert>
       </Snackbar>
       <CssBaseline />

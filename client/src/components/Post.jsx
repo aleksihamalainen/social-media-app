@@ -158,10 +158,6 @@ const Post = ({ post, posts, setPosts }) => {
         &nbsp;
         {post.content}
       </Typography>
-      <Typography component='div' variant='body2'>
-        Posted &nbsp;
-        {post.date}
-      </Typography>
     </Container>
   );
 };

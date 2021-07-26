@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import {
   makeStyles,
   CssBaseline,
@@ -51,10 +51,16 @@ const Profile = () => {
   const [user, setUser] = useState(null);
   const [following, setFollowing] = useState(false);
   const classes = useStyles();
+  const history = useHistory();
 
   const name = useParams().username;
   const currentUser = JSON.parse(localStorage.getItem('user'));
-  userService.setToken(currentUser.token);
+
+  if (currentUser) {
+    userService.setToken(currentUser.token);
+  } else {
+    history.push('/login');
+  }
 
   useEffect(() => {
     userService.findByUsername(name).then((response) => {
@@ -127,15 +133,18 @@ const Profile = () => {
             </Typography>
           </div>
           <div className={classes.images}>
-            {user.posts.map((post) => (
-              <img
-                src={post.image}
-                alt='Post'
-                key={post._id}
-                width='25%'
-                height='25%'
-              />
-            ))}
+            {user.posts.map((post) => {
+              const url = '/'.concat(post.image);
+              return (
+                <img
+                  src={url}
+                  alt='Post'
+                  key={post._id}
+                  width='25%'
+                  height='25%'
+                />
+              );
+            })}
           </div>
         </Container>
       ) : (
