@@ -49,7 +49,12 @@ const useStyles = makeStyles({
 
 const Profile = () => {
   const [user, setUser] = useState(null);
+  const [loaded, setLoaded] = useState(false);
+  const [followerCount, setFollowerCount] = useState(0);
+  const [followingCount, setFollowingCount] = useState(0);
   const [following, setFollowing] = useState(false);
+  const [posts, setPosts] = useState([]);
+
   const classes = useStyles();
   const history = useHistory();
 
@@ -65,22 +70,43 @@ const Profile = () => {
   useEffect(() => {
     userService.findByUsername(name).then((response) => {
       setUser(response);
+      setFollowerCount(response.followers.length);
+      setFollowingCount(response.following.length);
+      setPosts(response.posts);
     });
   }, [name]);
+
+  useEffect(() => {
+    if (user) {
+      setFollowing(
+        user.followers.includes(JSON.parse(localStorage.getItem('user')).id)
+      );
+    }
+  }, [user]);
+
+  setTimeout(() => {
+    setLoaded(true);
+  }, 500);
 
   const handleFollow = () => {
     userService.follow(user._id);
     setFollowing(true);
+    setFollowerCount(followerCount + 1);
   };
 
   const handleUnfollow = () => {
     userService.unfollow(user._id);
     setFollowing(false);
+    setFollowerCount(followerCount - 1);
   };
+
+  if (!user && loaded === true) {
+    return <NotFound />;
+  }
 
   return (
     <div>
-      <Navbar />
+      <Navbar posts={posts} setPosts={setPosts} />
       <CssBaseline />
       {user ? (
         <Container maxWidth='md'>
@@ -118,38 +144,40 @@ const Profile = () => {
             <Typography component='div' variant='body1'>
               <div className={classes.followRow}>
                 <div className={classes.posts}>
-                  {user.posts.length}
+                  {posts.length}
                   &nbsp; posts
                 </div>
                 <Link color='inherit' className={classes.followers}>
-                  {user.followers.length}
+                  {followerCount}
                   &nbsp; followers
                 </Link>
                 <Link color='inherit' className={classes.following}>
-                  {user.following.length}
+                  {followingCount}
                   &nbsp; following
                 </Link>
               </div>
             </Typography>
           </div>
           <div className={classes.images}>
-            {user.posts.map((post) => {
-              const url = '/'.concat(post.image);
-              return (
-                <img
-                  src={url}
-                  alt='Post'
-                  key={post._id}
-                  width='25%'
-                  height='25%'
-                />
-              );
+            {posts.map((post) => {
+              if (post.user === user._id || post.user._id === user._id) {
+                const url = '/'.concat(post.image);
+                return (
+                  <img
+                    src={url}
+                    alt='Post'
+                    key={post._id}
+                    width='25%'
+                    height='25%'
+                  />
+                );
+              } else {
+                return null;
+              }
             })}
           </div>
         </Container>
-      ) : (
-        <NotFound />
-      )}
+      ) : null}
     </div>
   );
 };
