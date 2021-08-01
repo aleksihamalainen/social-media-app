@@ -11,6 +11,7 @@ import Homepage from './components/Homepage';
 import PostContainer from './components/PostContainer';
 import Profile from './components/Profile';
 import NotFound from './components/NotFound';
+import SinglePost from './components/SinglePost';
 import postService from './services/posts';
 import userService from './services/users';
 
@@ -38,6 +39,9 @@ const App = () => {
         </Route>
         <Route path='/users/:username'>
           <Profile />
+        </Route>
+        <Route path='/posts/:postId'>
+          <SinglePost />
         </Route>
         <Route exact path='/'>
           {user ? <PostContainer /> : <Homepage />}

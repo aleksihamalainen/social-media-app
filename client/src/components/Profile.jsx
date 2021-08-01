@@ -202,7 +202,7 @@ const Profile = () => {
               if (post.user === user._id || post.user._id === user._id) {
                 const url = '/'.concat(post.image);
                 return (
-                  <Link href={`/posts/${post._id}`}>
+                  <Link href={`/posts/${post._id}`} key={post._id}>
                     <img
                       src={url}
                       alt='Post'

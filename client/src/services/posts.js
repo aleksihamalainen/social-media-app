@@ -16,6 +16,14 @@ const getAll = async () => {
   return response.data;
 };
 
+const findById = async (id) => {
+  const config = {
+    headers: { Authorization: token },
+  };
+  const response = await axios.get(`${baseUrl}/${id}`, config);
+  return response.data;
+};
+
 const post = async (object) => {
   const config = {
     headers: { Authorization: token },
@@ -48,4 +56,4 @@ const dislike = async (id) => {
   return response.data;
 };
 
-export default { setToken, getAll, post, remove, like, dislike };
+export default { setToken, getAll, findById, post, remove, like, dislike };

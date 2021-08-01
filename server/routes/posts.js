@@ -49,7 +49,9 @@ router.get('/:id', async (req, res) => {
     const token = getTokenFrom(req);
     jwt.verify(token, process.env.SECRET);
     try {
-      const post = await Post.findById(req.params.id);
+      const post = await Post.findById(req.params.id)
+        .populate('user')
+        .populate('likers');
       res.json(post);
     } catch (error) {
       res.status(404).send({ error: 'Post not found' });
