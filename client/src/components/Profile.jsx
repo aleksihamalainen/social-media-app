@@ -46,6 +46,14 @@ const useStyles = makeStyles({
   posts: {
     marginRight: '0.5em',
   },
+  image: {
+    maxWidth: '225px',
+    maxHeight: '225px',
+    margin: '0.1em',
+    '&:hover': {
+      opacity: '0.8',
+    },
+  },
 });
 
 const Profile = () => {
@@ -194,13 +202,16 @@ const Profile = () => {
               if (post.user === user._id || post.user._id === user._id) {
                 const url = '/'.concat(post.image);
                 return (
-                  <img
-                    src={url}
-                    alt='Post'
-                    key={post._id}
-                    width='25%'
-                    height='25%'
-                  />
+                  <Link href={`/posts/${post._id}`}>
+                    <img
+                      src={url}
+                      alt='Post'
+                      key={post._id}
+                      className={classes.image}
+                      width='25%'
+                      height='25%'
+                    />
+                  </Link>
                 );
               } else {
                 return null;

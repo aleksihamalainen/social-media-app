@@ -9,6 +9,7 @@ import {
   Menu,
   MenuItem,
   Button,
+  Typography,
 } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
 import AccountCircle from '@material-ui/icons/AccountCircle';
@@ -49,7 +50,7 @@ const Navbar = ({ posts, setPosts }) => {
   return (
     <AppBar position='sticky'>
       <Toolbar className={classes.navbar}>
-        <div>
+        <Typography component='div'>
           <IconButton color='inherit' onClick={() => history.push('/')}>
             <HomeIcon />
           </IconButton>
@@ -66,7 +67,7 @@ const Navbar = ({ posts, setPosts }) => {
             posts={posts}
             setPosts={setPosts}
           />
-        </div>
+        </Typography>
         <IconButton color='inherit' onClick={handleMenu}>
           <AccountCircle />
         </IconButton>

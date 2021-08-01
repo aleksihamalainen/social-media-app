@@ -31,8 +31,14 @@ const useStyles = makeStyles({
     display: 'flex',
     justifyContent: 'space-between',
   },
+  imageContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
   image: {
     margin: '1em 0',
+    maxHeight: '600px',
+    maxWidth: '600px',
   },
   likeContainer: {
     display: 'flex',
@@ -95,7 +101,7 @@ const Post = ({ post, posts, setPosts }) => {
     <Container maxWidth='md' className={classes.container}>
       <CssBaseline />
       <UserModal visible={visible} setVisible={setVisible} users={likers} />
-      <div className={classes.upper}>
+      <Typography component='div' className={classes.upper}>
         <Typography component='h1' variant='h6'>
           <Link href={`/users/${post.user.username}`} color='inherit'>
             {post.user.username}
@@ -133,14 +139,16 @@ const Post = ({ post, posts, setPosts }) => {
             </Button>
           </DialogActions>
         </Dialog>
-      </div>
-      <img
-        src={post.image}
-        alt='Post'
-        width='100%'
-        height='100%'
-        className={classes.image}
-      />
+      </Typography>
+      <Typography component='div' className={classes.imageContainer}>
+        <img
+          src={post.image}
+          alt='Post'
+          width='100%'
+          height='100%'
+          className={classes.image}
+        />
+      </Typography>
       <Typography component='div' className={classes.likeContainer}>
         {like ? (
           <IconButton className={classes.heart} onClick={handleDislike}>
