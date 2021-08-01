@@ -37,7 +37,7 @@ router.get('/', async (req, res) => {
   try {
     const token = getTokenFrom(req);
     jwt.verify(token, process.env.SECRET);
-    const posts = await Post.find({}).populate('user');
+    const posts = await Post.find({}).populate('user').populate('likers');
     res.json(posts);
   } catch (error) {
     res.status(401).send({ error: 'Token missing or invalid' });

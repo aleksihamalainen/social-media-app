@@ -47,9 +47,10 @@ router.get('/:username', async (req, res) => {
   try {
     const token = getTokenFrom(req);
     jwt.verify(token, process.env.SECRET);
-    const user = await User.findOne({ username: req.params.username }).populate(
-      'posts'
-    );
+    const user = await User.findOne({ username: req.params.username })
+      .populate('posts')
+      .populate('following')
+      .populate('followers');
     if (!user) {
       res.status(404).send({ error: 'User not found' });
     } else {

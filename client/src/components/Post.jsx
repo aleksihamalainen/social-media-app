@@ -14,6 +14,7 @@ import {
 } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import UserModal from './UserModal';
 import postService from '../services/posts';
 import userService from '../services/users';
 
@@ -45,10 +46,15 @@ const useStyles = makeStyles({
 
 const Post = ({ post, posts, setPosts }) => {
   const currentUser = JSON.parse(localStorage.getItem('user'));
+  const likerIds = post.likers.map((liker) => liker._id);
 
   const [open, setOpen] = useState(false);
+  const [visible, setVisible] = useState(false);
   const [likes, setLikes] = useState(post.likes);
-  const [like, setLike] = useState(post.likers.includes(currentUser.id));
+  const [likers, setLikers] = useState(
+    post.likers.map((liker) => liker.username)
+  );
+  const [like, setLike] = useState(likerIds.includes(currentUser.id));
   const [following, setFollowing] = useState(
     post.user.followers.includes(currentUser.id)
   );
@@ -65,12 +71,14 @@ const Post = ({ post, posts, setPosts }) => {
     postService.like(post._id);
     setLike(true);
     setLikes(likes + 1);
+    setLikers(likers.concat(currentUser.username));
   };
 
   const handleDislike = () => {
     postService.dislike(post._id);
     setLike(false);
     setLikes(likes - 1);
+    setLikers(likers.filter((liker) => liker !== currentUser.username));
   };
 
   const handleFollow = () => {
@@ -86,6 +94,7 @@ const Post = ({ post, posts, setPosts }) => {
   return (
     <Container maxWidth='md' className={classes.container}>
       <CssBaseline />
+      <UserModal visible={visible} setVisible={setVisible} users={likers} />
       <div className={classes.upper}>
         <Typography component='h1' variant='h6'>
           <Link href={`/users/${post.user.username}`} color='inherit'>
@@ -142,7 +151,7 @@ const Post = ({ post, posts, setPosts }) => {
             <FavoriteBorderIcon color='secondary' />
           </IconButton>
         )}
-        <Link color='inherit'>
+        <Link color='inherit' href='#' onClick={() => setVisible(true)}>
           {likes}
           &nbsp;likes
         </Link>

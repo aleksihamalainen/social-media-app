@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core';
 import Navbar from './Navbar';
 import NotFound from './NotFound';
+import UserModal from './UserModal';
 import userService from '../services/users';
 
 const useStyles = makeStyles({
@@ -54,6 +55,9 @@ const Profile = () => {
   const [followingCount, setFollowingCount] = useState(0);
   const [following, setFollowing] = useState(false);
   const [posts, setPosts] = useState([]);
+  const [followersUsers, setFollowersUsers] = useState([]);
+  const [visibleFollowing, setVisibleFollowing] = useState(false);
+  const [visibleFollowers, setVisibleFollowers] = useState(false);
 
   const classes = useStyles();
   const history = useHistory();
@@ -78,9 +82,12 @@ const Profile = () => {
 
   useEffect(() => {
     if (user) {
+      const userIds = user.followers.map((user) => user._id);
       setFollowing(
-        user.followers.includes(JSON.parse(localStorage.getItem('user')).id)
+        userIds.includes(JSON.parse(localStorage.getItem('user')).id)
       );
+      const usernames = user.followers.map((user) => user.username);
+      setFollowersUsers(usernames);
     }
   }, [user]);
 
@@ -92,12 +99,16 @@ const Profile = () => {
     userService.follow(user._id);
     setFollowing(true);
     setFollowerCount(followerCount + 1);
+    setFollowersUsers(followersUsers.concat(currentUser.username));
   };
 
   const handleUnfollow = () => {
     userService.unfollow(user._id);
     setFollowing(false);
     setFollowerCount(followerCount - 1);
+    setFollowersUsers(
+      followersUsers.filter((user) => user !== currentUser.username)
+    );
   };
 
   if (!user && loaded === true) {
@@ -110,6 +121,16 @@ const Profile = () => {
       <CssBaseline />
       {user ? (
         <Container maxWidth='md'>
+          <UserModal
+            visible={visibleFollowing}
+            setVisible={setVisibleFollowing}
+            users={user.following.map((following) => following.username)}
+          />
+          <UserModal
+            visible={visibleFollowers}
+            setVisible={setVisibleFollowers}
+            users={followersUsers}
+          />
           <div className={classes.info}>
             <div className={classes.titleRow}>
               <Typography
@@ -147,11 +168,21 @@ const Profile = () => {
                   {posts.length}
                   &nbsp; posts
                 </div>
-                <Link color='inherit' className={classes.followers}>
+                <Link
+                  color='inherit'
+                  className={classes.followers}
+                  href='#'
+                  onClick={() => setVisibleFollowers(true)}
+                >
                   {followerCount}
                   &nbsp; followers
                 </Link>
-                <Link color='inherit' className={classes.following}>
+                <Link
+                  color='inherit'
+                  className={classes.following}
+                  href='#'
+                  onClick={() => setVisibleFollowing(true)}
+                >
                   {followingCount}
                   &nbsp; following
                 </Link>
