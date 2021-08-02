@@ -4,6 +4,11 @@ A simple Instagram-like social media application where you can share photos with
 
 The live version of the application is running [here](https://generic-some-app.herokuapp.com/).
 
+![Demo](https://github.com/aleksihamalainen/social-media-app/blob/master/server/uploads/demo1.gif)
+
+![Demo](https://github.com/aleksihamalainen/social-media-app/blob/master/server/uploads/demo2.gif)
+
+
 ## Tech stack
 
 - React
