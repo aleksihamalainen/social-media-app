@@ -9,6 +9,7 @@ The live version of the application is running [here](https://generic-some-app.h
 - React
 
 - Node.js
+
 - Express
 
 - MongoDB
@@ -16,6 +17,8 @@ The live version of the application is running [here](https://generic-some-app.h
 - Docker
 
 - Material-UI
+
+- GitHub Actions
 
 ## Installation
 
@@ -71,8 +74,10 @@ Now the project is running at localhost on port 3001.
 
 - [x] View profiles
 
-- [ ] View individual posts
+- [x] View individual posts
 
-- [ ] Like posts
+- [x] Like posts
 
-- [ ] Follow other users
+- [x] Follow other users
+
+- [x] Continuous deployment to Heroku
